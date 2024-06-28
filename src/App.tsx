@@ -50,7 +50,7 @@ team_interaction()
         onValueChange={(code) => setCode(code)}
         language={language}
         padding={20}
-        className="w-full min-h-[60vh] resize-y"
+        className="w-full max-h-[60vh] h-[600px] "
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Highlight, themes, PrismTheme } from "prism-react-renderer";
 
 export interface EditorProps {
@@ -49,18 +49,23 @@ export default function Editor({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value;
     onValueChange(newValue);
-  };
+  }, []);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = preRef.current?.scrollHeight +"px"
+    }
+  }, [value]);
 
   return (
-    <div className={`${className ?? ""} relative box-border`} style={{ height: "100%" }}>
       <Highlight theme={themes.vsDark as PrismTheme} code={value} language={language}>
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+        {({ className : hightlightClasses, style, tokens, getLineProps, getTokenProps }) => (
           <pre
             ref={preRef}
-            className={`${className} w-full h-full whitespace-pre-wrap break-words break-keep relative overflow-auto rounded-md`}
+            className={`${hightlightClasses} w-full h-[600px] whitespace-pre-wrap break-words break-keep relative overflow-auto rounded-md [&>div]:pointer-events-none [&>div]:select-none ${className}`}
             style={{ ...style, padding }}
           >
             {tokens.map((line, i) => (
@@ -72,7 +77,7 @@ export default function Editor({
             ))}
             <textarea
               ref={textareaRef}
-              className="w-full h-full absolute top-0 left-0 whitespace-pre-wrap break-words caret-white resize-none break-keep bg-transparent outline-none overflow-hidden"
+              className="top-0 left-0 right-0 bottom-0 absolute whitespace-pre-wrap break-words caret-white resize-none break-keep outline-none overflow-hidden bg-transparent"
               spellCheck="false"
               autoComplete="off"
               autoCorrect="off"
@@ -84,11 +89,11 @@ export default function Editor({
                 WebkitFontSmoothing: "antialiased",
                 WebkitTextFillColor: "transparent",
                 padding,
+                height: preRef.current?.scrollHeight +"px"
               }}
             />
           </pre>
         )}
       </Highlight>
-    </div>
   );
 }
