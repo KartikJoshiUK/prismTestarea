@@ -1,8 +1,5 @@
 export default `from employees import kartik, recruiter
  
-export default function CodeEditor({}: CodeEditorProps) {
-  const [code, setCode] = useState<string>("");
-  const [language, setLanguage] = useState<string>("");
 def team_interaction():
     kartik.code_review()
     recruiter.give_feedback()
