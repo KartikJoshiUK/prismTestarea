@@ -7,6 +7,7 @@ export interface EditorProps {
   padding?: number;
   className?: string;
   language: string;
+  theme? : string
 }
 
 export const languages = [
@@ -45,6 +46,7 @@ export default function Editor({
   padding = 0,
   className,
   language,
+  theme = "vsDark",
 }: EditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
@@ -61,7 +63,7 @@ export default function Editor({
   }, [value]);
 
   return (
-      <Highlight theme={themes.vsDark as PrismTheme} code={value} language={language}>
+      <Highlight theme={themes[theme] as PrismTheme} code={value} language={language}>
         {({ className : hightlightClasses, style, tokens, getLineProps, getTokenProps }) => (
           <pre
             ref={preRef}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Editor, { languages } from "./Editor";
+import { PrismTheme, themes } from "prism-react-renderer";
 
 interface CodeEditorProps {}
 
@@ -23,6 +24,7 @@ def team_interaction():
 team_interaction()
 `);
   const [language, setLanguage] = useState<string>("python");
+  const [theme, setTheme] = useState<string>("dracula")
 
   return (
     <div className="bg-black p-6 h-screen overflow-auto">
@@ -45,10 +47,22 @@ team_interaction()
           </option>
         ))}
       </select>
+      <select
+        className="bg-gray-700 text-white p-2 rounded-t-md mx-2 capitalize"
+        value={theme}
+        onChange={(e) => setTheme(e.target.value)}
+      >
+        {Object.keys(themes).map((theme) => (
+          <option key={theme} value={theme} >
+            {theme}
+          </option>
+        ))}
+      </select>
       <Editor
         value={code}
         onValueChange={(code) => setCode(code)}
         language={language}
+        theme={theme}
         padding={20}
         className="w-full max-h-[60vh] h-[600px] "
       />
