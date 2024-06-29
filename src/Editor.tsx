@@ -7,13 +7,13 @@ export interface EditorProps {
   padding?: number;
   className?: string;
   language: string;
-  theme? : string
+  theme? : string;
 }
-
+export type Language = { name: string; id: string };
 export const languages = [
   { name: "Python", id: "python" },
-  {name : "React JSX", id : "jsx"},
-  {name : "React TSX", id : "tsx"},
+  { name : "React JSX", id : "jsx"},
+  { name : "React TSX", id : "tsx"},
   { name: "JavaScript", id: "javascript" },
   { name: "TypeScript", id: "typescript" },
   { name: "Java", id: "java" },
@@ -67,7 +67,7 @@ export default function Editor({
         {({ className : hightlightClasses, style, tokens, getLineProps, getTokenProps }) => (
           <pre
             ref={preRef}
-            className={`${hightlightClasses} w-full h-[600px] whitespace-pre-wrap break-words break-keep relative overflow-auto rounded-md [&>div]:pointer-events-none [&>div]:select-none ${className}`}
+            className={`${hightlightClasses} w-full h-[600px] whitespace-pre-wrap break-words break-keep relative overflow-auto rounded-md rounded-tl-none [&>div]:pointer-events-none [&>div]:select-none ${className}`}
             style={{ ...style, padding }}
           >
             {tokens.map((line, i) => (
